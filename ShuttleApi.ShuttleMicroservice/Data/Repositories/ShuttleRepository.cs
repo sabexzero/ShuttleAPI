@@ -1,14 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ShuttleApi.ShuttleMicroservice.Data.Contracts;
 using ShuttleApi.ShuttleMicroservice.Models;
 
-namespace ShuttleApi.ShuttleMicroservice.Data
+namespace ShuttleApi.ShuttleMicroservice.Data.Repositories
 {
     public class ShuttleRepository : IBaseRepository<Shuttle>
     {
         private readonly ShuttleDbContext _context;
         public ShuttleRepository(ShuttleDbContext context)
         {
-            _context = context;
+            _context = context; //контекст бд
         }
         public async Task Create(Shuttle entity)
         {
@@ -45,7 +46,7 @@ namespace ShuttleApi.ShuttleMicroservice.Data
             var checkEntity = await _context.Set<Shuttle>().FirstOrDefaultAsync(s => s.Id == entity.Id) ?? throw new InvalidOperationException();
             _context.Set<Shuttle>().Update(checkEntity);
             await Save();
-            
+
         }
     }
 }

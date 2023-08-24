@@ -15,7 +15,7 @@ namespace ShuttleApi.ShuttleMicroservice.Services
         private readonly Logger _logger = LogManager.GetCurrentClassLogger();
         public ShuttleService(ShuttleDbContext context)
         {
-             _context = context;
+            _context = context;
         }
 
         public async Task CreateShuttle(string title, int passengerLimit, int pilotsLimit, int capacity, int consumption, int averageSpeed, FuelType fuelType, CancellationToken cancellationToken)
@@ -25,18 +25,18 @@ namespace ShuttleApi.ShuttleMicroservice.Services
             {
                 _logger.Error($"failed to create shuttle enitity, because entity with ({title}) as title alredy exists in db");
                 throw new ShuttleAlreadyExistException();
-            }  
-            var newShuttle = new Shuttle() 
-            { 
-                    Title = title, 
-                    AverageSpeed = averageSpeed, 
-                    FuelType = fuelType, 
-                    FuelCapacity = capacity, 
-                    FuelConsumption = consumption, 
-                    PassengerLimit = passengerLimit, 
-                    PilotsLimit = pilotsLimit, 
-                    CreatedAt = DateTimeOffset.UtcNow, 
-                    Id = Guid.NewGuid() 
+            }
+            var newShuttle = new Shuttle()
+            {
+                Title = title,
+                AverageSpeed = averageSpeed,
+                FuelType = fuelType,
+                FuelTankCapacity = capacity,
+                FuelConsumption = consumption,
+                PassengerLimit = passengerLimit,
+                PilotsLimit = pilotsLimit,
+                CreatedAt = DateTimeOffset.UtcNow,
+                Id = Guid.NewGuid()
             };
             try
             {
@@ -45,7 +45,7 @@ namespace ShuttleApi.ShuttleMicroservice.Services
                 _logger.Info($"Creating shuttle with Id - {newShuttle.Id} and title - {newShuttle.Title}");
 
             }
-            catch (Exception) 
+            catch (Exception)
             {
                 _logger.Error($"failed to create shuttle enitity, for some unknown reason");
                 throw new CreateErrorException();

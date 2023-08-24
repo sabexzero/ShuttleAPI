@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ShuttleApi.ShuttleMicroservice.Common.Exceptions.Shuttle;
 using ShuttleApi.ShuttleMicroservice.Common.Utilities;
 using ShuttleApi.ShuttleMicroservice.Data;
 using ShuttleApi.ShuttleMicroservice.Models;
@@ -16,9 +17,9 @@ namespace ShuttleApi.ShuttleMicroservice.Services
 
         public async Task CreateShuttle(string title, int passengerLimit, int pilotsLimit, int capacity, int consumption, int averageSpeed, FuelType fuelType, CancellationToken cancellationToken)
         {
-            var checkForTitle = await GetShuttleByTitle(title);
+            var checkForTitle = await GetShuttleByTitle(title, cancellationToken);
             if (checkForTitle == null)
-                throw new InvalidOperationException();
+                throw new ShuttleAlreadyExistException();
             var newShuttle = new Shuttle() 
             { 
                     Title = title, 
@@ -31,29 +32,43 @@ namespace ShuttleApi.ShuttleMicroservice.Services
                     CreatedAt = DateTimeOffset.UtcNow, 
                     Id = Guid.NewGuid() 
             };
-            await _context.AddAsync(newShuttle, cancellationToken);
-            await _context.SaveChangesAsync(cancellationToken);
+            try
+            {
+                await _context.AddAsync(newShuttle, cancellationToken);
+                await _context.SaveChangesAsync(cancellationToken);
+            }
+            catch (Exception) 
+            {
+                throw new CreateErrorException();
+            }
         }
 
         public async Task DeleteShuttle(Guid id, CancellationToken cancellationToken)
         {
             var checkShuttle = await GetShuttleById(id, cancellationToken);
             if (checkShuttle == null)
-                throw new InvalidOperationException();
-            _context.Remove(checkShuttle);
-            await _context.SaveChangesAsync(cancellationToken);
+                throw new ShuttleNotFoundException();
+            try
+            {
+                _context.Remove(checkShuttle);
+                await _context.SaveChangesAsync(cancellationToken);
+            }
+            catch (Exception)
+            {
+                throw new DeleteErrorException();
+            }
         }
 
-        public async Task<IEnumerable<Shuttle>> GetAllShuttles()
+        public async Task<IEnumerable<Shuttle>> GetAllShuttles(CancellationToken cancellationToken)
         {
-            return await _context.Set<Shuttle>().ToListAsync();
+            return await _context.Set<Shuttle>().ToListAsync(cancellationToken);
         }
 
         public async Task<Shuttle> GetShuttleById(Guid id, CancellationToken cancellationToken)
         {
             var checkShuttle = await _context.Set<Shuttle>().FirstOrDefaultAsync(shuttle => shuttle.Id == id, cancellationToken);
             if(checkShuttle == null)
-                throw new InvalidOperationException();
+                throw new ShuttleNotFoundException();
             return checkShuttle;
         }
 
@@ -61,7 +76,7 @@ namespace ShuttleApi.ShuttleMicroservice.Services
         {
             var checkShuttle = await _context.Set<Shuttle>().FirstOrDefaultAsync(shuttle => shuttle.Title == title, cancellationToken);
             if(checkShuttle == null)
-                throw new InvalidOperationException();
+                throw new ShuttleNotFoundException();
             return checkShuttle;
         }
     }

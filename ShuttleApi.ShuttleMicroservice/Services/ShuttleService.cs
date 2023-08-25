@@ -75,6 +75,7 @@ namespace ShuttleApi.ShuttleMicroservice.Services
 
         public async Task<IEnumerable<Shuttle>> GetAllShuttles(CancellationToken cancellationToken)
         {
+            _logger.Error("a list of all spaceships was called up");
             return await _context.Set<Shuttle>().ToListAsync(cancellationToken);
         }
 

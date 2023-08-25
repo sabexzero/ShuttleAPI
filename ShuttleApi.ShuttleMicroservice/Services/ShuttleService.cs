@@ -1,49 +1,41 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ShuttleApi.ShuttleMicroservice.Common.Exceptions.Shuttle;
-using ShuttleApi.ShuttleMicroservice.Common.Utilities;
 using ShuttleApi.ShuttleMicroservice.Data;
 using ShuttleApi.ShuttleMicroservice.Models;
 using ShuttleApi.ShuttleMicroservice.Services.Contracts;
 
 using NLog;
+using AutoMapper;
+using ShuttleApi.ShuttleMicroservice.Data.DTOs;
 
 namespace ShuttleApi.ShuttleMicroservice.Services
 {
     public class ShuttleService : IShuttleService
     {
         private readonly ShuttleDbContext _context;
-        private readonly Logger _logger = LogManager.GetCurrentClassLogger();
-        public ShuttleService(ShuttleDbContext context)
+        private readonly Logger _logger;
+        private readonly IMapper _mapper;
+        public ShuttleService(ShuttleDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
+            _logger = LogManager.GetCurrentClassLogger();
         }
 
-        public async Task CreateShuttle(string title, int passengerLimit, int pilotsLimit, int capacity, int consumption, int averageSpeed, FuelType fuelType, CancellationToken cancellationToken)
+        public async Task CreateShuttle(ShuttleDTO shuttleDto, CancellationToken cancellationToken)
         {
-            var checkForTitle = await GetShuttleByTitle(title, cancellationToken);
+            var checkForTitle = await GetShuttleByTitle(shuttleDto.Title, cancellationToken);
             if (checkForTitle == null)
             {
-                _logger.Error($"failed to create shuttle enitity, because entity with ({title}) as title alredy exists in db");
+                _logger.Error($"failed to create shuttle enitity, because entity with ({shuttleDto.Title}) as title alredy exists in db");
                 throw new ShuttleAlreadyExistException();
             }
-            var newShuttle = new Shuttle()
-            {
-                Title = title,
-                AverageSpeed = averageSpeed,
-                FuelType = fuelType,
-                FuelTankCapacity = capacity,
-                FuelConsumption = consumption,
-                PassengerLimit = passengerLimit,
-                PilotsLimit = pilotsLimit,
-                CreatedAt = DateTimeOffset.UtcNow,
-                Id = Guid.NewGuid()
-            };
             try
             {
+                var newShuttle = _mapper.Map<Shuttle>(shuttleDto);
                 await _context.AddAsync(newShuttle, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
                 _logger.Info($"Creating shuttle with Id - {newShuttle.Id} and title - {newShuttle.Title}");
-
             }
             catch (Exception)
             {
@@ -73,13 +65,13 @@ namespace ShuttleApi.ShuttleMicroservice.Services
             }
         }
 
-        public async Task<IEnumerable<Shuttle>> GetAllShuttles(CancellationToken cancellationToken)
+        public async Task<IEnumerable<ShuttleDTO>> GetAllShuttles(CancellationToken cancellationToken)
         {
-            _logger.Error("a list of all spaceships was called up");
-            return await _context.Set<Shuttle>().ToListAsync(cancellationToken);
+            _logger.Info("a list of all spaceships was called up");
+            return await _context.Set<Shuttle>().Select(s => _mapper.Map<ShuttleDTO>(s)).ToListAsync(cancellationToken);
         }
 
-        public async Task<Shuttle> GetShuttleById(Guid id, CancellationToken cancellationToken)
+        public async Task<ShuttleDTO> GetShuttleById(Guid id, CancellationToken cancellationToken)
         {
             var checkShuttle = await _context.Set<Shuttle>().FirstOrDefaultAsync(shuttle => shuttle.Id == id, cancellationToken);
             if (checkShuttle == null)
@@ -87,10 +79,11 @@ namespace ShuttleApi.ShuttleMicroservice.Services
                 _logger.Error($"failed to get shuttle enitity by id, because it doesnt exists in db");
                 throw new ShuttleNotFoundException();
             }
-            return checkShuttle;
+            _logger.Info($"a specific spaceship {checkShuttle.Id} was called up");
+            return _mapper.Map<ShuttleDTO>(checkShuttle);
         }
 
-        public async Task<Shuttle> GetShuttleByTitle(string title, CancellationToken cancellationToken)
+        public async Task<ShuttleDTO> GetShuttleByTitle(string title, CancellationToken cancellationToken)
         {
             var checkShuttle = await _context.Set<Shuttle>().FirstOrDefaultAsync(shuttle => shuttle.Title == title, cancellationToken);
             if (checkShuttle == null)
@@ -98,7 +91,8 @@ namespace ShuttleApi.ShuttleMicroservice.Services
                 _logger.Error($"failed to get shuttle enitity by title, because it doesnt exists in db");
                 throw new ShuttleNotFoundException();
             }
-            return checkShuttle;
+            _logger.Info($"a specific spaceship {checkShuttle.Id} was called up");
+            return _mapper.Map<ShuttleDTO>(checkShuttle);
         }
     }
 }

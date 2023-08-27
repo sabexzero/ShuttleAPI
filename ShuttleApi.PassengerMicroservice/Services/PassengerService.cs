@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ShuttleApi.PassengerMicroservice.Services
 {
-/*  UserManagerобрабатывает отмену внутри себя и получает токен отмены от HttpContext.RequestAborted.
+/*  UserManager обрабатывает отмену внутри себя и получает токен отмены от HttpContext.RequestAborted.
       Таким образом, вам не нужно передавать токен отмены, и поэтому методы его не принимают.*/
 
     public class PassengerService : IPassengerService

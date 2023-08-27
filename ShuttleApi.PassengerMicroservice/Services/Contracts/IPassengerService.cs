@@ -6,10 +6,9 @@ namespace ShuttleApi.PassengerMicroservice.Services.Contracts
 {
     public interface IPassengerService
     {
-        Task<Passenger> CreatePassenger(PassengerDTO passengerDTO, string password, CancellationToken cancellationToken);
-        Task DeletePassenger(string id, CancellationToken cancellationToken);
-        Task<IEnumerable<Passenger>> GetAllPassengers(CancellationToken cancellationToken);
-        Task<Passenger> GetPassengerById(string id, CancellationToken cancellationToken);
-        Task<Passenger> GetPassengerByName(string username, CancellationToken cancellationToken);
+        Task CreatePassenger(PassengerDTO passengerDTO, string password);
+        Task DeletePassenger(string id);
+        Task<IEnumerable<Passenger>> GetAllPassengers();
+        Task<Passenger> GetPassengerById(string id);
     }
 }

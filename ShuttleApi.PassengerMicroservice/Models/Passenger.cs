@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using ShuttleApi.PassengerMicroservice.Common.Utilities;
 using System.ComponentModel.DataAnnotations;
 
 namespace ShuttleApi.PassengerMicroservice.Models

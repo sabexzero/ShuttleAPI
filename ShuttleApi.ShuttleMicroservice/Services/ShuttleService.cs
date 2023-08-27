@@ -44,7 +44,7 @@ namespace ShuttleApi.ShuttleMicroservice.Services
             }
         }
 
-        public async Task DeleteShuttle(Guid id, CancellationToken cancellationToken)
+        public async Task DeleteShuttle(string id, CancellationToken cancellationToken)
         {
             var checkShuttle = await GetShuttleById(id, cancellationToken);
             if (checkShuttle == null)
@@ -71,7 +71,7 @@ namespace ShuttleApi.ShuttleMicroservice.Services
             return await _context.Set<Shuttle>().Select(s => _mapper.Map<ShuttleDTO>(s)).ToListAsync(cancellationToken);
         }
 
-        public async Task<ShuttleDTO> GetShuttleById(Guid id, CancellationToken cancellationToken)
+        public async Task<ShuttleDTO> GetShuttleById(string id, CancellationToken cancellationToken)
         {
             var checkShuttle = await _context.Set<Shuttle>().FirstOrDefaultAsync(shuttle => shuttle.Id == id, cancellationToken);
             if (checkShuttle == null)

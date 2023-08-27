@@ -1,10 +1,9 @@
-﻿using ShuttleApi.ShuttleMicroservice.Common.Utilities;
+﻿using ShuttleApi.ShuttleMicroservice.Models;
 
 namespace ShuttleApi.ShuttleMicroservice.Data.DTOs
 {
     public class ShuttleDTO
     {
-        public Guid Id { get; set; }
         public string Title { get; set; }
         public int PassengerLimit { get; set; }
         public int PilotsLimit { get; set; }

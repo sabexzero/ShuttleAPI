@@ -8,8 +8,8 @@ namespace ShuttleApi.ShuttleMicroservice.Services.Contracts
     public interface IShuttleService
     {
         Task CreateShuttle(ShuttleDTO shuttleDto, CancellationToken cancellationToken);
-        Task DeleteShuttle(Guid id, CancellationToken cancellationToken);
-        Task<ShuttleDTO> GetShuttleById(Guid id, CancellationToken cancellationToken);
+        Task DeleteShuttle(string id, CancellationToken cancellationToken);
+        Task<ShuttleDTO> GetShuttleById(string id, CancellationToken cancellationToken);
         Task<IEnumerable<ShuttleDTO>> GetAllShuttles(CancellationToken cancellationToken);
         Task<ShuttleDTO> GetShuttleByTitle(string title, CancellationToken cancellationToken);
     }

@@ -6,21 +6,18 @@ namespace ShuttleApi.PassengerMicroservice.Models
 {
     public class Passenger : IdentityUser
     {
-        public DateTimeOffset? CreatedAt { get; } = DateTimeOffset.UtcNow;
-
-        [Required(ErrorMessage = "Name field is required")]
-        [StringLength(100)]
+        public DateTimeOffset CreatedAt { get; } = DateTimeOffset.UtcNow;
         public string Name { get; set; }
-
-        [Required(ErrorMessage = "Surname field is required")]
-        [StringLength(100)]
         public string Surname { get; set; }
-        [Required]
         public Gender Gender { get; set; }
-
-        [Required(ErrorMessage = "BirthDate field is required")]
         public DateOnly BirthDate { get; set; }
-        public Uri? AvatarUrl { get; set; }
+        public Uri? AvatarUrl { get; set; } = default;
         public long Balance { get; set; } = 0;
+    }
+    public enum Gender
+    {
+        Male = 1,
+        Female = 2,
+        NoMatter = 3
     }
 }

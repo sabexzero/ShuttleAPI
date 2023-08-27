@@ -11,8 +11,8 @@ namespace ShuttleApi.FlightsMicroservice.Models
         public Guid ShuttleId { get; set; }
         public Guid DepartureStationId { get; set; }
         public Guid ArrivalStationId { get; set; }
-        public List<Guid> PilotIds { get; set; }
-        public List<Guid> PassengerIds { get; set; }
+        public List<Guid> PilotIds { get; set; } = new List<Guid>();
+        public List<Guid> PassengerIds { get; set; } = new List<Guid>();
         public FlightDifficulty FlightDifficulty { get; set; }
     }
 

@@ -8,7 +8,7 @@ namespace ShuttleApi.PassengerMicroservice.Services.Contracts
     {
         Task CreatePassenger(PassengerDTO passengerDTO, string password);
         Task DeletePassenger(string id);
-        Task<IEnumerable<Passenger>> GetAllPassengers();
-        Task<Passenger> GetPassengerById(string id);
+        Task<IEnumerable<PassengerDTO>> GetAllPassengers();
+        Task<PassengerDTO> GetPassengerById(string id);
     }
 }

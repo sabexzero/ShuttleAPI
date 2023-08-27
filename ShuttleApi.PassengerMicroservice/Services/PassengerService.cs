@@ -64,14 +64,14 @@ namespace ShuttleApi.PassengerMicroservice.Services
             }
         }
 
-        public async Task<IEnumerable<Passenger>> GetAllPassengers()
+        public async Task<IEnumerable<PassengerDTO>> GetAllPassengers()
         {
-            return await _passengerManager.Users.ToListAsync();
+            return await _passengerManager.Users.Select(s => _mapper.Map<PassengerDTO>(s)).ToListAsync();
         }
 
-        public async Task<Passenger> GetPassengerById(string id)
+        public async Task<PassengerDTO> GetPassengerById(string id)
         {
-            return await _passengerManager.FindByIdAsync(id);
+            return _mapper.Map<PassengerDTO>(await _passengerManager.FindByIdAsync(id));
         }
     }
 }

@@ -14,7 +14,7 @@ namespace ShuttleApi.PilotMicroservice.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Остальные конфигурации моделей...
+            modelBuilder.Entity<Pilot>().Ignore(s => s.UserName);
 
             base.OnModelCreating(modelBuilder);
         }

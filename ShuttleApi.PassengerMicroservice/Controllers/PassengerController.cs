@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NLog;
 using ShuttleApi.PassengerMicroservice.Data.DTOs;
+using ShuttleApi.PassengerMicroservice.Models;
 using ShuttleApi.PassengerMicroservice.Services;
 using ShuttleApi.PassengerMicroservice.Services.Contracts;
 
@@ -27,9 +28,9 @@ namespace ShuttleApi.UserService.Controllers
         }
 
         [HttpGet("GetPassengerById")]
-        public async Task<ActionResult<PassengerDTO>> GetShuttleById([FromBody] string shuttleId)
+        public async Task<ActionResult<PassengerDTO>> GetShuttleById([FromBody] string passengerId)
         {
-            var passenger = await _passengerService.GetPassengerById(shuttleId);
+            var passenger = await _passengerService.GetPassengerById(passengerId);
             return Ok(passenger);
         }
 
@@ -38,6 +39,13 @@ namespace ShuttleApi.UserService.Controllers
         {
             var listOfPassengers = await _passengerService.GetAllPassengers();
             return Ok(listOfPassengers);
+        }
+
+        [HttpPost("DeletePassenger")]
+        public async Task<ActionResult> DeletePilot([FromBody] string passengerId)
+        {
+            await _passengerService.DeletePassenger(passengerId);
+            return Ok();
         }
     }
 }

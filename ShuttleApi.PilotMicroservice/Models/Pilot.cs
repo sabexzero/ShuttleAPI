@@ -26,4 +26,17 @@ namespace ShuttleApi.PilotMicroservice.Models
         public int FlightsAmount { get; set; }
         public PilotRank Rank { get; set; }
     }
+    public enum PilotRank
+    {
+        StellarCadet = 0,
+        CosmonautExplorer = 1,
+        AstronautTraveler = 2,
+        StarshipCaptain = 3
+    }
+    public enum Gender
+    {
+        Male = 1,
+        Female = 2,
+        NoMatter = 3
+    }
 }

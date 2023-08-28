@@ -4,6 +4,7 @@ namespace ShuttleApi.PassengerMicroservice.Data.DTOs
 {
     public class PassengerDTO
     {
+        public string? Id { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
         public Gender Gender { get; set; }

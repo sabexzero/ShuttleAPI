@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using ShuttleApi.PilotMicroservice.Common.Utilities;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.CompilerServices;
 

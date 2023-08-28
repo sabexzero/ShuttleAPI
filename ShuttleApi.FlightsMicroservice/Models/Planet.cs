@@ -2,9 +2,9 @@
 {
     public class Planet
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
         public string Title { get; set; }
-        public List<Guid> StationIds { get; set; } = new List<Guid>();
+        public List<string> StationIds { get; set; } = new List<string>();
 
     }
 }

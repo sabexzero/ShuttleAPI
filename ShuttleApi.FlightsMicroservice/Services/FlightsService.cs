@@ -4,6 +4,6 @@ namespace ShuttleApi.FlightsMicroservice.Services
 {
     public class FlightsService : IFlightsService
     {
-        //На будущее
+        
     }
 }

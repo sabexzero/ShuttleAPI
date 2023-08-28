@@ -26,7 +26,7 @@ namespace ShuttleApi.ShuttleMicroservice.Controllers
         }
 
         [HttpGet("GetShuttleById")]
-        public async Task<ActionResult<ShuttleDTO>> GetShuttleById([FromBody] Guid shuttleId, [FromQuery] CancellationToken cancellationToken)
+        public async Task<ActionResult<ShuttleDTO>> GetShuttleById([FromBody] string shuttleId, [FromQuery] CancellationToken cancellationToken)
         {
             var shuttle =  await _shuttleService.GetShuttleById(shuttleId, cancellationToken);
             return Ok(shuttle);

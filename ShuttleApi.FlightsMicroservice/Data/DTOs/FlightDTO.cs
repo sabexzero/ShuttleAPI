@@ -10,8 +10,8 @@ namespace ShuttleApi.FlightsMicroservice.Data.DTOs
         public string ShuttleId { get; set; }
         public string DepartureStationId { get; set; }
         public string ArrivalStationId { get; set; }
-        public List<string>? PilotIds { get; set; }
-        public List<string>? PassengerIds { get; set; }
-        public FlightDifficulty FlightDifficulty { get; set; }
+        public string PilotId { get; set; }
+        public string PassengerId { get; set; }
+        public FlightClass FlightClass { get; set; }
     }
 }

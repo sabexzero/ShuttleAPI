@@ -14,14 +14,14 @@ namespace ShuttleApi.PilotMicroservice.Models
         public DateOnly BirthDate { get; set; }
         public Uri? AvatarUrl { get; set; }
         public int FlightsAmount { get; set; }
-        public PilotRank Rank { get; set; }
+        public FlightClass PilotClass { get; set; }
     }
-    public enum PilotRank
+    public enum FlightClass
     {
-        StellarCadet = 0,
-        CosmonautExplorer = 1,
-        AstronautTraveler = 2,
-        StarshipCaptain = 3
+        Economy = 0,
+        Comfort = 1,
+        ComfortPlus = 2,
+        Business = 3
     }
     public enum Gender
     {

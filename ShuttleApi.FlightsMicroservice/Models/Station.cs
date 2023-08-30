@@ -4,7 +4,7 @@
                         //чтобы планета была пригодная для полетов, такие правила
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
-        public DateTimeOffset CreatedAt { get; set; }
+        public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
         public string Title { get; set; } 
         public int RefuelingSpeed { get; set; } // per min
         public int NumberOfShipsNow { get; set; }

@@ -27,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Common\Exceptions\Pilot\" />
+    <Folder Include="Common\Exceptions\" />
     <Folder Include="Common\Utilities\" />
     <Folder Include="Tests\" />
   </ItemGroup>

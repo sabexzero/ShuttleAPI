@@ -11,17 +11,17 @@ namespace ShuttleApi.FlightsMicroservice.Models
         public string ShuttleId { get; set; }
         public string DepartureStationId { get; set; }
         public string ArrivalStationId { get; set; }
-        public List<string> PilotIds { get; set; } = new List<string>();
-        public List<string> PassengerIds { get; set; } = new List<string>();
-        public FlightDifficulty FlightDifficulty { get; set; }
+        public string PilotIds { get; set; } 
+        public string PassengerId { get; set; }
+        public int Price { get; set; }
+        public FlightClass FlightClass { get; set; }
     }
 
-    public enum FlightDifficulty
+    public enum FlightClass
     {
-        Simple = 0,          // Простой
-        Moderate = 1,        // Умеренный
-        Complex = 2,         // Сложный
-        Daunting = 3         // Пугающий
+        Economy = 0,
+        Comfort = 1,
+        ComfortPlus = 2,
+        Business = 3
     }
-
 }
